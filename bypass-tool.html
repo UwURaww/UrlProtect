@@ -702,6 +702,239 @@
   </div>
 </header>
 
+<!-- GUIDE MODAL -->
+<div class="guide-modal-overlay" id="guide-modal">
+  <div class="guide-modal">
+    <div class="guide-header">
+      <h2>Setup Guide</h2>
+      <p>Learn how to get your keys and configure each provider.</p>
+    </div>
+    <div class="guide-tabs">
+      <button class="guide-tab active" onclick="switchTab('bypass-key')">B.Y.P.A.S.S Key</button>
+      <button class="guide-tab" onclick="switchTab('lvdynamic')">Linkvertise</button>
+      <button class="guide-tab" onclick="switchTab('lootlabs')">LootLabs</button>
+      <button class="guide-tab" onclick="switchTab('workink')">Work.ink</button>
+      <button class="guide-tab" onclick="switchTab('others')">Other Providers</button>
+      <button class="guide-tab" onclick="switchTab('pikey')">What is pikey?</button>
+    </div>
+    <div class="guide-body">
+
+      <!-- BYPASS KEY -->
+      <div class="guide-panel active" id="panel-bypass-key">
+        <div class="guide-tip">⚠️ The B.Y.P.A.S.S <code class="code-pill">c-api-key</code> is different from your provider key. You need both.</div>
+        <div class="guide-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Join the B.Y.P.A.S.S Discord</h4>
+            <p>Go to <a href="https://discord.gg/tsnNVWTkp5" target="_blank">discord.gg/tsnNVWTkp5</a> and join the server. This is where you register and get support.</p>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Register for API access</h4>
+            <p>Follow the instructions in the Discord server to register your account and request an API key. Look for a <strong>#register</strong> or <strong>#get-key</strong> channel.</p>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Copy your c-api-key</h4>
+            <p>Once approved, you'll receive a key that looks like a long string of letters and numbers. Copy it exactly.</p>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Paste it here</h4>
+            <p>Click the <strong>⚙ API Key</strong> button in the top-right corner of this page, paste your key, and hit Save. It's stored only in your browser.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- LINKVERTISE -->
+      <div class="guide-panel" id="panel-lvdynamic">
+        <div class="guide-info">✓ Linkvertise Dynamic (lvdynamic) is recommended — it uses your numeric User ID, which is easiest to find.</div>
+
+        <div class="guide-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Go to Linkvertise</h4>
+            <p>Visit <a href="https://linkvertise.com" target="_blank">linkvertise.com</a> and log in or create a free account.</p>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Find your User ID (for lvdynamic)</h4>
+            <p>After logging in, go to your <strong>Dashboard</strong>. Look at the URL — it will look like <span class="code-pill">linkvertise.com/user/dashboard/1229349</span>. The number at the end is your <strong>User ID</strong>. Use that as your <span class="code-pill">pikey</span>.</p>
+          </div>
+        </div>
+        <div class="guide-divider"></div>
+        <div class="guide-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Get a Bearer Token (for linkvertise provider)</h4>
+            <p>If you use the <strong>linkvertise</strong> provider instead, go to <strong>Dashboard → API Settings</strong>. Generate or copy your Bearer Token and use that as your <span class="code-pill">pikey</span>.</p>
+          </div>
+        </div>
+        <div class="guide-tip">⚠️ Don't mix them up — lvdynamic uses the numeric UserID, linkvertise uses the Bearer Token.</div>
+      </div>
+
+      <!-- LOOTLABS -->
+      <div class="guide-panel" id="panel-lootlabs">
+        <div class="guide-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Go to LootLabs</h4>
+            <p>Visit <a href="https://lootlabs.gg" target="_blank">lootlabs.gg</a> and log in or sign up.</p>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Open the Developers section</h4>
+            <p>In your dashboard, navigate to <strong>Developers</strong> or <strong>API</strong> settings. Look for an API Key field.</p>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Generate and copy your API Key</h4>
+            <p>Generate a new key if you don't have one, then copy it and paste it as your <span class="code-pill">pikey</span>.</p>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Configure Postback (Required)</h4>
+            <p>LootLabs requires postback to work with B.Y.P.A.S.S. Set your postback URL in the LootLabs dashboard. Check the B.Y.P.A.S.S Discord for the exact postback URL to use.</p>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <h4>Max Tasks</h4>
+            <p>LootLabs supports a "Max Tasks" setting (1–5). When you select LootLabs as your provider, this option will appear on the form. Higher = more revenue but more work for the user.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- WORKINK -->
+      <div class="guide-panel" id="panel-workink">
+        <div class="guide-step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Go to Work.ink</h4>
+            <p>Visit <a href="https://work.ink" target="_blank">work.ink</a> and log in or create an account.</p>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Open API settings</h4>
+            <p>Go to your dashboard and find the <strong>API</strong> section. Copy your API Key.</p>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Paste as pikey</h4>
+            <p>Use your Work.ink API Key as the <span class="code-pill">pikey</span> value in the form.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- OTHERS -->
+      <div class="guide-panel" id="panel-others">
+        <p style="color:var(--text-2);font-size:13px;margin-bottom:20px">These providers all follow the same pattern — log in, find your API Key in the dashboard settings, and use it as your <span class="code-pill">pikey</span>.</p>
+
+        <div class="guide-step">
+          <div class="step-num" style="background:#6b6860">C</div>
+          <div class="step-content">
+            <h4>Cuty.io</h4>
+            <p>Log in at <a href="https://cuty.io" target="_blank">cuty.io</a> → <strong>Settings → API</strong> → copy your API Key.</p>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="step-num" style="background:#6b6860">L</div>
+          <div class="step-content">
+            <h4>Lockr</h4>
+            <p>Log in at your Lockr dashboard → <strong>API section</strong> → copy your API Key.</p>
+          </div>
+        </div>
+        <div class="guide-step">
+          <div class="step-num" style="background:#6b6860">R</div>
+          <div class="step-content">
+            <h4>Rinku</h4>
+            <p>Log in at your Rinku dashboard → <strong>API section</strong> → copy your API Key.</p>
+          </div>
+        </div>
+        <div class="guide-divider"></div>
+        <div class="guide-tip">⚠️ If you can't find the API section, look for "Developer Settings", "Integrations", or "API Keys" in your account settings.</div>
+      </div>
+
+      <!-- PIKEY EXPLAINER -->
+      <div class="guide-panel" id="panel-pikey">
+        <div class="guide-info">✓ pikey = "Provider Key" — it's the credential that lets B.Y.P.A.S.S create links on your behalf with your monetization account.</div>
+        <p style="font-size:13px;color:var(--text-2);margin-bottom:20px">Each provider uses a different type of credential. Here's a quick reference:</p>
+
+        <div style="border:1px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;margin-bottom:16px">
+          <table style="width:100%;border-collapse:collapse;font-size:13px">
+            <thead>
+              <tr style="background:var(--surface2)">
+                <th style="padding:10px 14px;text-align:left;font-weight:600;border-bottom:1px solid var(--border)">Provider</th>
+                <th style="padding:10px 14px;text-align:left;font-weight:600;border-bottom:1px solid var(--border)">pikey Type</th>
+                <th style="padding:10px 14px;text-align:left;font-weight:600;border-bottom:1px solid var(--border)">Where to Get It</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:9px 14px"><strong>lvdynamic</strong></td>
+                <td style="padding:9px 14px"><span class="code-pill">numeric User ID</span></td>
+                <td style="padding:9px 14px;color:var(--text-2)">Dashboard URL</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:9px 14px"><strong>linkvertise</strong></td>
+                <td style="padding:9px 14px"><span class="code-pill">Bearer Token</span></td>
+                <td style="padding:9px 14px;color:var(--text-2)">Dashboard → API Settings</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:9px 14px"><strong>lootlabs</strong></td>
+                <td style="padding:9px 14px"><span class="code-pill">API Key</span></td>
+                <td style="padding:9px 14px;color:var(--text-2)">Dashboard → Developers</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:9px 14px"><strong>workink</strong></td>
+                <td style="padding:9px 14px"><span class="code-pill">API Key</span></td>
+                <td style="padding:9px 14px;color:var(--text-2)">Dashboard → API</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:9px 14px"><strong>cutyio</strong></td>
+                <td style="padding:9px 14px"><span class="code-pill">API Key</span></td>
+                <td style="padding:9px 14px;color:var(--text-2)">Settings → API</td>
+              </tr>
+              <tr style="border-bottom:1px solid var(--border)">
+                <td style="padding:9px 14px"><strong>lockr</strong></td>
+                <td style="padding:9px 14px"><span class="code-pill">API Key</span></td>
+                <td style="padding:9px 14px;color:var(--text-2)">Dashboard → API</td>
+              </tr>
+              <tr>
+                <td style="padding:9px 14px"><strong>rinku</strong></td>
+                <td style="padding:9px 14px"><span class="code-pill">API Key</span></td>
+                <td style="padding:9px 14px;color:var(--text-2)">Dashboard → API</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="guide-tip">⚠️ Keep your pikey private — it's tied to your monetization account. Anyone with it can create links on your behalf.</div>
+      </div>
+
+    </div>
+    <button class="guide-close" onclick="closeGuide()">Close</button>
+  </div>
+</div>
+
 <!-- API KEY MODAL -->
 <div class="modal-overlay" id="key-modal">
   <div class="modal">
@@ -739,7 +972,7 @@
     </div>
     <div class="row">
       <div class="field">
-        <label>Provider</label>
+        <label>Provider <button class="help-btn" onclick="openGuide('lvdynamic')" title="How to get provider key">?</button></label>
         <select id="provider">
           <option value="lvdynamic">Linkvertise Dynamic (UserID) — Recommended</option>
           <option value="linkvertise">Linkvertise (Bearer Token)</option>
@@ -751,7 +984,7 @@
         </select>
       </div>
       <div class="field">
-        <label>Provider Key (pikey) <span class="hint">UserID / API Key / Bearer</span></label>
+        <label>Provider Key (pikey) <button class="help-btn" onclick="openGuide('pikey')" title="What is pikey?">?</button> <span class="hint">UserID / API Key / Bearer</span></label>
         <input type="text" id="pikey" placeholder="e.g. 1229349" />
       </div>
     </div>
@@ -978,6 +1211,30 @@
       const cb = item.querySelector('input[type=checkbox]');
       if (cb && cb.checked) item.classList.add('active');
     });
+  });
+
+  // ─── GUIDE ───────────────────────────────────────────────────
+  function openGuide(tab) {
+    document.getElementById('guide-modal').classList.add('open');
+    if (tab) switchTab(tab);
+  }
+
+  function closeGuide() {
+    document.getElementById('guide-modal').classList.remove('open');
+  }
+
+  function switchTab(id) {
+    document.querySelectorAll('.guide-tab').forEach((t, i) => {
+      const panels = ['bypass-key','lvdynamic','lootlabs','workink','others','pikey'];
+      t.classList.toggle('active', panels[i] === id);
+    });
+    document.querySelectorAll('.guide-panel').forEach(p => {
+      p.classList.toggle('active', p.id === `panel-${id}`);
+    });
+  }
+
+  document.getElementById('guide-modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('guide-modal')) closeGuide();
   });
 
   // ─── KEY MANAGEMENT ──────────────────────────────────────────
