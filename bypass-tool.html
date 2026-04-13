@@ -1375,39 +1375,35 @@
 
     const tasks = collectTasks();
 
-    const body = {
-      url,
-      pikey,
-      provider,
-      jsonDetections: {
-        Referer: document.getElementById('det-referer').checked,
-        DetectUserscripts: document.getElementById('det-userscripts').checked,
-        UnicodeDetect: document.getElementById('det-unicode').checked,
-        SpoofCompletion: document.getElementById('det-spoof').checked,
-        ManualDetectionZ: document.getElementById('det-manual').checked,
-        RS_Invisible: document.getElementById('det-rsinvisible').checked,
-        MinTime: String(minTime),
-        Presets: {
-          'BYPASS.VIP': document.getElementById('pre-bypassvip').checked,
-          'BYPASS.CITY': document.getElementById('pre-bypasscity').checked,
-          'TRW-API': document.getElementById('pre-trw').checked
-        },
-        RenueveBooster: {
-          BlockAdBlocks: document.getElementById('rb-adblock').checked,
-          RenueveForcer: document.getElementById('rb-forcer').checked,
-          BlockVPNS: document.getElementById('rb-vpn').checked,
-          BlockIncognito: document.getElementById('rb-incognito').checked,
-          CaptchaRequired: document.getElementById('rb-captcha').checked,
-          ...(tasks.length > 0 ? { XTra_tasks: tasks } : {})
-        }
+    const jsonDetections = {
+      Referer: document.getElementById('det-referer').checked,
+      DetectUserscripts: document.getElementById('det-userscripts').checked,
+      UnicodeDetect: document.getElementById('det-unicode').checked,
+      SpoofCompletion: document.getElementById('det-spoof').checked,
+      ManualDetectionZ: document.getElementById('det-manual').checked,
+      RS_Invisible: document.getElementById('det-rsinvisible').checked,
+      MinTime: String(minTime),
+      Presets: {
+        'BYPASS.VIP': document.getElementById('pre-bypassvip').checked,
+        'BYPASS.CITY': document.getElementById('pre-bypasscity').checked,
+        'TRW-API': document.getElementById('pre-trw').checked
+      },
+      RenueveBooster: {
+        BlockAdBlocks: document.getElementById('rb-adblock').checked,
+        RenueveForcer: document.getElementById('rb-forcer').checked,
+        BlockVPNS: document.getElementById('rb-vpn').checked,
+        BlockIncognito: document.getElementById('rb-incognito').checked,
+        CaptchaRequired: document.getElementById('rb-captcha').checked,
+        ...(tasks.length > 0 ? { XTra_tasks: tasks } : {})
       }
     };
 
     if (provider === 'lootlabs') {
-      body.jsonDetections.MaxTasks = String(maxTasks);
-    } else if (adsUrl) {
-      body.ads_script_url = adsUrl;
+      jsonDetections.MaxTasks = String(maxTasks);
     }
+
+    const body = { url, pikey, provider, jsonDetections };
+    if (adsUrl) body.ads_script_url = adsUrl;
 
     // UI loading state
     const btn = document.getElementById('generate-btn');
@@ -1417,6 +1413,8 @@
     const resultArea = document.getElementById('result-area');
     resultArea.style.display = 'none';
     resultArea.innerHTML = '';
+
+    const debugPayload = JSON.stringify(body, null, 2);
 
     try {
       const res = await fetch('https://kys.linkvertise.lol/api/v2/bck/publishers', {
@@ -1428,7 +1426,9 @@
         body: JSON.stringify(body)
       });
 
-      const data = await res.json();
+      const rawText = await res.text();
+      let data;
+      try { data = JSON.parse(rawText); } catch { data = { success: false, _raw: rawText }; }
 
       if (data.success && data.data?.link) {
         const link = data.data.link;
@@ -1447,22 +1447,25 @@
               <span class="meta-item">Expires: ${expiry}</span>
             </div>
           </div>
+          ${debugBox(debugPayload, rawText, res.status)}
         `;
       } else {
-        const msg = data.message || data.error || JSON.stringify(data);
+        const msg = data.message || data.error || data.detail || '';
         resultArea.innerHTML = `
           <div class="result-box error">
-            <h3>✕ Error generating link</h3>
-            <p style="font-size:13px;color:var(--red);font-family:'DM Mono',monospace;margin-top:6px">${msg}</p>
+            <h3>✕ Error generating link${msg ? ': ' + msg : ''}</h3>
+            <p style="font-size:12px;color:var(--red);font-family:'DM Mono',monospace;margin-top:6px;word-break:break-all">HTTP ${res.status} — ${rawText}</p>
           </div>
+          ${debugBox(debugPayload, rawText, res.status)}
         `;
       }
     } catch (err) {
       resultArea.innerHTML = `
         <div class="result-box error">
-          <h3>✕ Request failed</h3>
-          <p style="font-size:13px;color:var(--red);margin-top:6px">${err.message}</p>
+          <h3>✕ Request failed — ${err.message}</h3>
+          <p style="font-size:12px;color:var(--red);margin-top:6px">This may be a <strong>CORS error</strong>. The B.Y.P.A.S.S API may block requests from browser-based tools. Try hosting this page on a web server (e.g. GitHub Pages, Netlify) instead of opening it as a local file.</p>
         </div>
+        ${debugBox(debugPayload, 'fetch failed: ' + err.message, '—')}
       `;
     }
 
@@ -1470,6 +1473,27 @@
     resultArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     btn.disabled = false;
     btn.innerHTML = 'Generate Protected Link';
+  }
+
+  function debugBox(sent, received, status) {
+    return `
+      <div style="border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-top:0">
+        <div style="padding:10px 16px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;cursor:pointer" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='none'?'block':'none'">
+          <span style="font-size:12px;font-weight:600;color:var(--text-2)">🔍 Debug — HTTP ${status}</span>
+          <span style="font-size:11px;color:var(--text-3)">click to expand</span>
+        </div>
+        <div style="display:none;padding:14px 16px">
+          <p style="font-size:11px;font-weight:600;color:var(--text-3);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em">Sent payload</p>
+          <pre style="font-family:'DM Mono',monospace;font-size:11px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;overflow-x:auto;color:var(--text);white-space:pre-wrap;word-break:break-all">${escHtml(sent)}</pre>
+          <p style="font-size:11px;font-weight:600;color:var(--text-3);margin:12px 0 6px;text-transform:uppercase;letter-spacing:.05em">Raw response</p>
+          <pre style="font-family:'DM Mono',monospace;font-size:11px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;overflow-x:auto;color:var(--text);white-space:pre-wrap;word-break:break-all">${escHtml(received)}</pre>
+        </div>
+      </div>
+    `;
+  }
+
+  function escHtml(str) {
+    return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
 
   function copyLink(link) {
